@@ -314,7 +314,7 @@
     <Compile Include="Assets\Scripts\TerrainGenerator.cs" />
     <Compile Include="Assets\Scripts\TextureGenerator.cs" />
     <Compile Include="Assets\Scripts\ThreadedDataRequester.cs" />
-    <Compile Include="Assets\Scripts\VegetationMapGenerator.cs" />
+    <Compile Include="Assets\Scripts\TreeMapGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Terrain.shader" />

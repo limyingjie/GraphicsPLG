@@ -14,7 +14,7 @@ public static class TreeMapGenerator
 			for (int y = 0; y < height; y++) {
 				float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightMap.values [x, y] - .5f)) + 1) / 2;
 				float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatMap.values [x, y] - .5f)) + 1) / 2;
-				float p = pHeight * pHeat - .3f;
+				float p = (pHeight * pHeat - .3f)*0.4f;
 				bool hasTree = rng.Next (0, 100) > (100 - p * 100);
 				float treeHeight = hasTree ? treeHeightMap [x, y] : 0;
 				treeHeightMap [x, y] = treeHeight;

@@ -19,7 +19,7 @@ public class MapPreviewEditor : Editor {
 		}
 
 		if (GUILayout.Button ("Destroy Objects")) {
-			mapPreview.DestroyObjects ();
+			//mapPreview.DestroyObjects ();
 		}
 	}
 }
