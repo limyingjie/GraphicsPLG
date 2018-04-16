@@ -17,5 +17,9 @@ public class MapPreviewEditor : Editor {
 		if (GUILayout.Button ("Generate")) {
 			mapPreview.DrawMapInEditor ();
 		}
+
+		if (GUILayout.Button ("Destroy Objects")) {
+			mapPreview.DestroyObjects ();
+		}
 	}
 }

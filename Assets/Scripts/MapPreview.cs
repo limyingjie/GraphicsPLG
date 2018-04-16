@@ -19,7 +19,7 @@ public class MapPreview : MonoBehaviour {
 
 	public Material terrainMaterial;
 
-
+//	public Object[] Trees;
 
 	[Range(0,MeshSettings.numSupportedLODs-1)]
 	public int editorPreviewLOD;
@@ -33,7 +33,7 @@ public class MapPreview : MonoBehaviour {
 		textureData.UpdateMeshHeights (terrainMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
 		HeightMap heightMap = HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
         HeatMap heatMap = HeatMapGenerator.GenerateHeatMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heatMapSettings, Vector2.zero);
-        TreeMap treeMap = VegetationMapGenerator.generateVegetationMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine,heightMap, heatMap, treeMapSettings, Vector2.zero);
+        TreeMap treeMap = TreeMapGenerator.generateVegetationMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine,heightMap, heatMap, treeMapSettings, Vector2.zero);
 
         if (drawMode == DrawMode.NoiseMap)
         {
@@ -42,6 +42,7 @@ public class MapPreview : MonoBehaviour {
         else if (drawMode == DrawMode.Mesh)
         {
             DrawMesh(MeshGenerator.GenerateTerrainMesh(heightMap.values, meshSettings, editorPreviewLOD));
+			DrawTrees (TreeMapGenerator.getTreeTransforms(treeMap, heightMap));
         }
         else if (drawMode == DrawMode.FalloffMap)
         {
@@ -74,6 +75,24 @@ public class MapPreview : MonoBehaviour {
 		textureRender.gameObject.SetActive (false);
 		meshFilter.gameObject.SetActive (true);
 	}
+
+	public void DrawTrees(Vector4[] transforms){
+		Object tree = Resources.Load ("Trees/Prefabs/Fir_Tree");
+//		Trees = new Object[transforms.GetLength];
+		for (int i = 0; i < transforms.Length; i++) {
+			Vector4 transform = transforms [i];
+			if (transform[3] != 0) {
+				Instantiate (tree, new Vector3(transform[0], transform[1], transform[2]), Quaternion.identity);
+			}
+		}
+	}
+
+//	public void DestroyObjects(){
+////		foreach (Object tree in Trees) {
+////			this.DestroyObjects()
+////		}
+//		this.DestroyObjects();
+//	}
 
 
 
