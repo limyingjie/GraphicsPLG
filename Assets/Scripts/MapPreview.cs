@@ -58,7 +58,7 @@ public class MapPreview : MonoBehaviour {
         }
         else if (drawMode == DrawMode.HeatMap)
         {
-            DrawTexture(TextureGenerator.TextureFromHeatMap(heatMap));
+            DrawTexture(TextureGenerator.TextureColorizedFromHeatMap(heatMap));
         }
         else if (drawMode == DrawMode.TreeMap) {
             DrawTexture(TextureGenerator.TextureFromTreeMap(treeMap));
