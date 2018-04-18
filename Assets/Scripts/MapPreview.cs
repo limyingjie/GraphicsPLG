@@ -38,7 +38,7 @@ public class MapPreview : MonoBehaviour {
         }
         else if (drawMode == DrawMode.Mesh)
         {
-            DrawMesh(MeshGenerator.GenerateTerrainMesh(heightMap.values, meshSettings, editorPreviewLOD));
+            DrawMesh(MeshGenerator.GenerateTerrainMesh2(heightMap.values, meshSettings, editorPreviewLOD,heatMap.values));
             DrawTrees(heightMap.values, meshSettings,treeMap.values);
         }
         else if (drawMode == DrawMode.FalloffMap)
