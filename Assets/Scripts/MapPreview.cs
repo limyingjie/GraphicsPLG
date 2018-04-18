@@ -8,7 +8,7 @@ public class MapPreview : MonoBehaviour {
 	public MeshRenderer meshRenderer;
 
 
-	public enum DrawMode {NoiseMap, Mesh, FalloffMap, HeatMap, TreeMap};
+	public enum DrawMode {HeightMap, Mesh, FalloffMap, HeatMap, TreeMap};
 	public DrawMode drawMode;
 
 	public MeshSettings meshSettings;
@@ -32,8 +32,8 @@ public class MapPreview : MonoBehaviour {
 		textureData.ApplyToMaterial (terrainMaterial);
 		textureData.UpdateMeshHeights (terrainMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
 		HeightMap heightMap = HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
-        HeatMap heatMap = HeatMapGenerator.GenerateHeatMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heatMapSettings, Vector2.zero);
-        TreeMap treeMap = TreeMapGenerator.generateVegetationMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine,heightMap, heatMap, treeMapSettings, Vector2.zero);
+        HeatMap heatMap = HeatMapGenerator.GenerateHeatMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMap, heatMapSettings, Vector2.zero);
+        TreeMap treeMap = TreeMapGenerator.generateVegetationMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMap, heatMap, treeMapSettings, Vector2.zero);
         GameObject[] fooObjs = GameObject.FindGameObjectsWithTag("Tree");
         foreach (GameObject fooObj in fooObjs)
         {
@@ -42,7 +42,7 @@ public class MapPreview : MonoBehaviour {
                 DestroyImmediate(fooObj); //temporary fix
             }
         }
-        if (drawMode == DrawMode.NoiseMap)
+        if (drawMode == DrawMode.HeightMap)
         {
             DrawTexture(TextureGenerator.TextureFromHeightMap(heightMap));
         }

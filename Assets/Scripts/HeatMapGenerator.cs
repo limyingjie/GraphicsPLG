@@ -5,7 +5,7 @@ using UnityEngine;
 public static class HeatMapGenerator
 {
 
-    public static HeatMap GenerateHeatMap(int width, int height, HeatMapSettings settings, Vector2 sampleCentre)
+    public static HeatMap GenerateHeatMap(int width, int height, HeightMap heightMap, HeatMapSettings settings, Vector2 sampleCentre)
     {
         float[,] values = Noise.GenerateNoiseMap(width, height, settings.noiseSettings, sampleCentre);
 
@@ -19,7 +19,10 @@ public static class HeatMapGenerator
             for (int j = 0; j < height; j++)
             {
                 values[i, j] *= heatCurve_threadsafe.Evaluate(values[i, j]) * settings.heatMultiplier;
-
+				values [i, j] -= heightMap.values [i, j] * .1f;
+				if (heightMap.values [i, j] < .2f) {
+					values [i, j] -= .3f;
+				}
                 if (values[i, j] > maxValue)
                 {
                     maxValue = values[i, j];
