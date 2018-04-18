@@ -6,15 +6,20 @@ public static class TreeMapGenerator
 	public static TreeMap generateVegetationMap (int width, int height, HeightMap heightMap, HeatMap heatMap, TreeHeightMapSettings settings, Vector2 sampleCentre){
 		float[,] treeHeightMap = Noise.GenerateNoiseMap (width, height, settings.noiseSettings, sampleCentre);
 		System.Random rng = new System.Random ();
-
+		;
         float minValue = float.MaxValue;
         float maxValue = float.MinValue;
 
         for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightMap.values [x, y] - .5f)) + 1) / 2;
-				float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatMap.values [x, y] - .5f)) + 1) / 2;
-				float p = (pHeight * pHeat - .3f)*0.4f;
+				float heightValue = Mathf.Lerp (heightMap.minValue, heightMap.maxValue, heightMap.values [x, y]);
+				float heatValue = Mathf.Lerp (heatMap.minValue, heatMap.maxValue, heatMap.values [x, y]);
+	
+//				float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightMap.values [x, y] - .5f)) + 1) / 2;
+//				float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatMap.values [x, y] - .5f)) + 1) / 2;
+				float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightValue - .5f)) + 1) / 2;
+				float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatValue - .5f)) + 1) / 2;
+				float p = (pHeight * pHeat - .2f);
 				bool hasTree = rng.Next (0, 100) > (100 - p * 100);
 				float treeHeight = hasTree ? treeHeightMap [x, y] : 0;
 				treeHeightMap [x, y] = treeHeight;

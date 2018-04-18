@@ -19,14 +19,9 @@ public class MapPreview : MonoBehaviour {
 
 	public Material terrainMaterial;
 
-//	public Object[] Trees;
-
 	[Range(0,MeshSettings.numSupportedLODs-1)]
 	public int editorPreviewLOD;
 	public bool autoUpdate;
-
-
-
 
 	public void DrawMapInEditor() {
 		textureData.ApplyToMaterial (terrainMaterial);
@@ -34,14 +29,9 @@ public class MapPreview : MonoBehaviour {
 		HeightMap heightMap = HeightMapGenerator.GenerateHeightMap (meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMapSettings, Vector2.zero);
         HeatMap heatMap = HeatMapGenerator.GenerateHeatMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMap, heatMapSettings, Vector2.zero);
         TreeMap treeMap = TreeMapGenerator.generateVegetationMap(meshSettings.numVertsPerLine, meshSettings.numVertsPerLine, heightMap, heatMap, treeMapSettings, Vector2.zero);
-        GameObject[] fooObjs = GameObject.FindGameObjectsWithTag("Tree");
-        foreach (GameObject fooObj in fooObjs)
-        {
-            if (fooObj.name == "Fir_Tree(Clone)")
-            {
-                DestroyImmediate(fooObj); //temporary fix
-            }
-        }
+        
+		DestroyTrees (); //temporary fix
+
         if (drawMode == DrawMode.HeightMap)
         {
             DrawTexture(TextureGenerator.TextureFromHeightMap(heightMap));
@@ -49,8 +39,7 @@ public class MapPreview : MonoBehaviour {
         else if (drawMode == DrawMode.Mesh)
         {
             DrawMesh(MeshGenerator.GenerateTerrainMesh(heightMap.values, meshSettings, editorPreviewLOD));
-            //DrawTrees (TreeMapGenerator.getTreeTransforms(treeMap, heightMap));
-            testDrawTrees(heightMap.values, meshSettings,treeMap.values);
+            DrawTrees(heightMap.values, meshSettings,treeMap.values);
         }
         else if (drawMode == DrawMode.FalloffMap)
         {
@@ -64,10 +53,6 @@ public class MapPreview : MonoBehaviour {
             DrawTexture(TextureGenerator.TextureFromTreeMap(treeMap));
         }
 	}
-
-
-
-
 
 	public void DrawTexture(Texture2D texture) {
 		textureRender.sharedMaterial.mainTexture = texture;
@@ -84,42 +69,38 @@ public class MapPreview : MonoBehaviour {
 		meshFilter.gameObject.SetActive (true);
 	}
 
-	public void DrawTrees(Vector4[] transforms){
-		Object tree = Resources.Load ("Trees/Prefabs/Fir_Tree");
-//		Trees = new Object[transforms.GetLength];
-		for (int i = 0; i < transforms.Length; i++) {
-			Vector4 transform = transforms [i];
-			if (transform[3] != 0) {
-				//Instantiate (tree, new Vector3(transform[0], transform[2], transform[1]), Quaternion.identity);
+	void DestroyTrees(){
+		GameObject[] fooObjs = GameObject.FindGameObjectsWithTag("Tree");
+		foreach (GameObject fooObj in fooObjs)
+		{
+			if (fooObj.name == "Olive_Tree_Prefab(Clone)")
+			{
+				DestroyImmediate(fooObj); //temporary fix
 			}
 		}
 	}
 
-    public void testDrawTrees(float[,] heightMap, MeshSettings meshSettings, float[,] treeMap) {
-        Object tree = Resources.Load("Trees/Prefabs/Fir_Tree");
+    public void DrawTrees(float[,] heightMap, MeshSettings meshSettings, float[,] treeMap) {
+		Object tree = Resources.Load("Trees/Olive_Tree/Olive_Prefab/Olive_Tree_Prefab");
         int numVertsPerLine = meshSettings.numVertsPerLine;
         Vector2 topLeft = new Vector2(-1, 1) * meshSettings.meshWorldSize / 2f;
-        System.Random rng = new System.Random();
+//        System.Random rng = new System.Random();
         for (int y = 0; y < numVertsPerLine; y++) {
             for (int x = 0; x < numVertsPerLine; x++){
                 Vector2 percent = new Vector2(x - 1, y - 1) / (numVertsPerLine - 3);
                 Vector2 vertexPosition2D = topLeft + new Vector2(percent.x, -percent.y) * meshSettings.meshWorldSize;
                 float height = heightMap[x, y];
-                float p = treeMap[x,y]*0.1f;
-                bool hasTree = rng.NextDouble() < (p);
-                if (hasTree) { Instantiate(tree, new Vector3(vertexPosition2D.x, height, vertexPosition2D.y), Quaternion.identity); }
+//                float p = treeMap[x,y]*0.1f;
+//                bool hasTree = rng.NextDouble() < (p);
+				if (treeMap[x, y] > 0) { 
+					Instantiate(tree, 
+								new Vector3(vertexPosition2D.x, height, vertexPosition2D.y), //position
+								Quaternion.Euler(new Vector3(-90, 0, 0))); //rotation 
+				}
 
             }
         }
     }
-
-//	public void DestroyObjects(){
-////		foreach (Object tree in Trees) {
-////			this.DestroyObjects()
-////		}
-//		this.DestroyObjects();
-//	}
-
 
 
 	void OnValuesUpdated() {

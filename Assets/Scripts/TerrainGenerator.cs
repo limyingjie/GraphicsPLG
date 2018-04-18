@@ -82,6 +82,10 @@ public class TerrainGenerator : MonoBehaviour {
 		}
 	}
 
+	void OnApplicationQuit(){
+		
+	}
+
 	void OnTerrainChunkVisibilityChanged(TerrainChunk chunk, bool isVisible) {
 		if (isVisible) {
 			visibleTerrainChunks.Add (chunk);

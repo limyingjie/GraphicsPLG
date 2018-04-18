@@ -19,9 +19,10 @@ public static class HeatMapGenerator
             for (int j = 0; j < height; j++)
             {
                 values[i, j] *= heatCurve_threadsafe.Evaluate(values[i, j]) * settings.heatMultiplier;
-				values [i, j] -= heightMap.values [i, j] * .1f;
-				if (heightMap.values [i, j] < .2f) {
-					values [i, j] -= .3f;
+				values [i, j] -= heightMap.values [i, j] * .15f;
+				float heightPercentage = Mathf.Lerp(heightMap.minValue, heightMap.maxValue, heightMap.values [i, j]);
+				if (heightPercentage < .2f) {
+					values [i, j] = -2.5;
 				}
                 if (values[i, j] > maxValue)
                 {
@@ -33,7 +34,8 @@ public static class HeatMapGenerator
                 }
             }
         }
-
+		Debug.Log ("heat min = " + minValue);
+		Debug.Log ("heat max = " + maxValue);
         return new HeatMap(values, minValue, maxValue);
     }
 
