@@ -21,7 +21,7 @@ public static class HeatMapGenerator
             {
                 values[i, j] *= heatCurve_threadsafe.Evaluate(values[i, j]) * settings.heatMultiplier;
 				float heightPercentage = Mathf.Lerp(heightMap.minValue, heightMap.maxValue, heightMap.values [i, j]);
-				values [i, j] -= heightMap.values [i, j] * .01f;
+				values [i, j] -= heightMap.values [i, j] * .008f;
 //				if (heightPercentage < .2f) {
 //					values [i, j] = -1.5f;
 //				}

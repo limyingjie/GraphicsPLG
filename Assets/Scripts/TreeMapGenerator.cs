@@ -11,27 +11,30 @@ public static class TreeMapGenerator
         float maxValue = float.MinValue;
 
         for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				float heightValue = Mathf.Lerp (heightMap.minValue, heightMap.maxValue, heightMap.values [x, y]);
-				float heatValue = Mathf.Lerp (heatMap.minValue, heatMap.maxValue, heatMap.values [x, y]);
-	
-				if (heightMap.values[x,y] >= 4f && heightMap.values[x,y] <= 13f) {
-//				if (heightValue >= .8f) {
-					float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightValue - .5f)) + 1) / 2;
-					float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatValue - .5f)) + 1) / 2;
-					float p = (pHeight * pHeat * .5f);
-					bool hasTree = rng.Next (0, 100) > (100 - p * 100);
-					float treeHeight = hasTree ? treeHeightMap [x, y] : 0;
-					treeHeightMap [x, y] = treeHeight;
-					if (treeHeight > maxValue) {
-						maxValue = treeHeight;
-					}
-					if (treeHeight < minValue) {
-						minValue = treeHeight;
-					}
-				} else {
-					treeHeightMap [x, y] = 0;
-				}
+            for (int y = 0; y < height; y++) {
+                float heightValue = Mathf.Lerp(heightMap.minValue, heightMap.maxValue, heightMap.values[x, y]);
+                float heatValue = Mathf.Lerp(heatMap.minValue, heatMap.maxValue, heatMap.values[x, y]);
+
+                if ((heightMap.values[x, y] >= 4f && heightMap.values[x, y] <= 13f) &&
+                    (heatMap.values[x, y] >= .1f && heatMap.values[x, y] <= .6f))
+                {
+                    float pHeight = (Mathf.Cos(2 * Mathf.PI * (heightValue - .5f)) + 1) / 2;
+                    float pHeat = (Mathf.Cos(2 * Mathf.PI * (heatValue - .5f)) + 1) / 2;
+                    float p = (pHeight * pHeat * 2);
+                    bool hasTree = rng.Next(0, 100) > (100 - p * 100);
+                    float treeHeight = hasTree ? treeHeightMap[x, y] : 0;
+                    treeHeightMap[x, y] = treeHeight;
+                    if (treeHeight > maxValue)
+                    {
+                        maxValue = treeHeight;
+                    }
+                    if (treeHeight < minValue)
+                    {
+                        minValue = treeHeight;
+                    }
+                } else {
+                    treeHeightMap[x, y] = 0;
+                }
             }
 		}
 

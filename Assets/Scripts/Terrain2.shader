@@ -65,11 +65,11 @@
 
 			o.Albedo = o.Albedo * (1 - drawStrength) + (baseColour + textureColour) * drawStrength;
 			if (i == 2) {
-				drawStrength = inverseLerp(-baseBlends[5] / 2 - epsilon, baseBlends[5] / 2, 0.1 - IN.uv2_Heat.x);
+				drawStrength = inverseLerp(-baseBlends[5] / 2 - epsilon, baseBlends[5] / 2, 0.2 - IN.uv2_Heat.y);
 				float3 textureColour = triplanar(IN.worldPos, baseTextureScales[5], blendAxes, 5);
 				o.Albedo = o.Albedo * (1 - drawStrength) + textureColour * drawStrength;
 
-				drawStrength = inverseLerp(-baseBlends[1] / 2 - epsilon, baseBlends[1] / 2, IN.uv2_Heat.x - 0.6);
+				drawStrength = inverseLerp(-baseBlends[1] / 2 - epsilon, baseBlends[1] / 2, IN.uv2_Heat.y - 0.6);
 				textureColour = triplanar(IN.worldPos, baseTextureScales[1], blendAxes, 1);
 				o.Albedo = o.Albedo * (1 - drawStrength) + textureColour * drawStrength;
 			}

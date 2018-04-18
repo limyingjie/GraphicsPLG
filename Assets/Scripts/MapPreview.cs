@@ -89,14 +89,14 @@ public class MapPreview : MonoBehaviour {
             for (int x = 0; x < numVertsPerLine; x++){
                 Vector2 percent = new Vector2(x - 1, y - 1) / (numVertsPerLine - 3);
                 Vector2 vertexPosition2D = topLeft + new Vector2(percent.x, -percent.y) * meshSettings.meshWorldSize;
-                float height = heightMap[x, y];
+                float height = heightMap[numVertsPerLine - 1 - x, y];
 //                float p = treeMap[x,y]*0.1f;
 				float rotation = (float) rng.NextDouble() * 180;
 //				Debug.Log (rotation);
 
 				if (treeMap[x, y] > 0) { 
 					GameObject treeObject = (GameObject) Instantiate(tree, 
-								new Vector3(vertexPosition2D.x, height, vertexPosition2D.y), //position
+								new Vector3(-vertexPosition2D.x, height, vertexPosition2D.y), //position
 						Quaternion.Euler(new Vector3(-90, rotation, 0))); //rotation 
 					treeObject.transform.localScale *= treeMap[x,y] * 2;
 				}

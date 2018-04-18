@@ -134,7 +134,7 @@ public static class MeshGenerator {
                     Vector2 percent = new Vector2(x - 1, y - 1) / (numVertsPerLine - 3);
                     Vector2 vertexPosition2D = topLeft + new Vector2(percent.x, -percent.y) * meshSettings.meshWorldSize;
                     float height = heightMap[x, y];
-                    float heat = heatMap[x, y];
+                    float heat = heatMap[numVertsPerLine - 1 - x, y];
 
                     if (isEdgeConnectionVertex)
                     {
