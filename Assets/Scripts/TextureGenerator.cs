@@ -73,6 +73,7 @@ public static class TextureGenerator {
             {
                 colourMap[y * width + x] = Color.Lerp(Color.black, Color.white, Mathf.InverseLerp(heatMap.minValue, heatMap.maxValue, heatMap.values[x, y]));
                 colourMap[y * width + x] = Color.HSVToRGB((1 - colourMap[y * width + x].r) * 2 / 3, 1, 1);
+//				colourMap[y * width + x] = Color.HSVToRGB(colourMap[y * width + x].r * 2 / 3, 1, 1);
             }
         }
 

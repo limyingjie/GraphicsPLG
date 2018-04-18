@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public static class HeatMapGenerator
 {
@@ -19,10 +20,10 @@ public static class HeatMapGenerator
             for (int j = 0; j < height; j++)
             {
                 values[i, j] *= heatCurve_threadsafe.Evaluate(values[i, j]) * settings.heatMultiplier;
-				values [i, j] -= heightMap.values [i, j] * .15f;
-//				float heightPercentage = Mathf.Lerp(heightMap.minValue, heightMap.maxValue, heightMap.values [i, j]);
+				float heightPercentage = Mathf.Lerp(heightMap.minValue, heightMap.maxValue, heightMap.values [i, j]);
+				values [i, j] -= heightMap.values [i, j] * .1f;
 //				if (heightPercentage < .2f) {
-//					values [i, j] = -2.5;
+//					values [i, j] = -1.5f;
 //				}
                 if (values[i, j] > maxValue)
                 {
@@ -34,6 +35,21 @@ public static class HeatMapGenerator
                 }
             }
         }
+
+//		for (int i = 0; i < width; i++) {
+//			for (int j = 0; j < height; j++) {
+//				values [i, j] = Mathf.Lerp (minValue, maxValue, values [i, j]);
+//				float heightPercentage = Mathf.Lerp(heightMap.minValue, heightMap.maxValue, heightMap.values [i, j]);
+//				if (heightPercentage > .7f) {
+//					values [i, j] -= heightMap.values [i, j] * .15f;
+//				} else if (heightPercentage > .3f) {
+//					values [i, j] += heightMap.values [i, j] * .05f;
+//				} else {
+//					values [i, j] -= 1f;
+//				}
+//
+//			}
+//		}
 		Debug.Log ("heat min = " + minValue);
 		Debug.Log ("heat max = " + maxValue);
         return new HeatMap(values, minValue, maxValue);

@@ -15,22 +15,23 @@ public static class TreeMapGenerator
 				float heightValue = Mathf.Lerp (heightMap.minValue, heightMap.maxValue, heightMap.values [x, y]);
 				float heatValue = Mathf.Lerp (heatMap.minValue, heatMap.maxValue, heatMap.values [x, y]);
 	
-//				float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightMap.values [x, y] - .5f)) + 1) / 2;
-//				float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatMap.values [x, y] - .5f)) + 1) / 2;
-				float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightValue - .5f)) + 1) / 2;
-				float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatValue - .5f)) + 1) / 2;
-				float p = (pHeight * pHeat - .2f);
-				bool hasTree = rng.Next (0, 100) > (100 - p * 100);
-				float treeHeight = hasTree ? treeHeightMap [x, y] : 0;
-				treeHeightMap [x, y] = treeHeight;
-                if (treeHeight > maxValue)
-                {
-                    maxValue = treeHeight;
-                }
-                if (treeHeight < minValue)
-                {
-                    minValue = treeHeight;
-                }
+				if (heightMap.values[x,y] >= 4f && heightMap.values[x,y] <= 13f) {
+//				if (heightValue >= .8f) {
+					float pHeight = (Mathf.Cos (2 * Mathf.PI * (heightValue - .5f)) + 1) / 2;
+					float pHeat = (Mathf.Cos (2 * Mathf.PI * (heatValue - .5f)) + 1) / 2;
+					float p = (pHeight * pHeat * .5f);
+					bool hasTree = rng.Next (0, 100) > (100 - p * 100);
+					float treeHeight = hasTree ? treeHeightMap [x, y] : 0;
+					treeHeightMap [x, y] = treeHeight;
+					if (treeHeight > maxValue) {
+						maxValue = treeHeight;
+					}
+					if (treeHeight < minValue) {
+						minValue = treeHeight;
+					}
+				} else {
+					treeHeightMap [x, y] = 0;
+				}
             }
 		}
 

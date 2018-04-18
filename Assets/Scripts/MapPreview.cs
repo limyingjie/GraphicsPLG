@@ -84,18 +84,21 @@ public class MapPreview : MonoBehaviour {
 		Object tree = Resources.Load("Trees/Olive_Tree/Olive_Prefab/Olive_Tree_Prefab");
         int numVertsPerLine = meshSettings.numVertsPerLine;
         Vector2 topLeft = new Vector2(-1, 1) * meshSettings.meshWorldSize / 2f;
-//        System.Random rng = new System.Random();
+		System.Random rng = new System.Random();
         for (int y = 0; y < numVertsPerLine; y++) {
             for (int x = 0; x < numVertsPerLine; x++){
                 Vector2 percent = new Vector2(x - 1, y - 1) / (numVertsPerLine - 3);
                 Vector2 vertexPosition2D = topLeft + new Vector2(percent.x, -percent.y) * meshSettings.meshWorldSize;
                 float height = heightMap[x, y];
 //                float p = treeMap[x,y]*0.1f;
-//                bool hasTree = rng.NextDouble() < (p);
+				float rotation = (float) rng.NextDouble() * 180;
+//				Debug.Log (rotation);
+
 				if (treeMap[x, y] > 0) { 
-					Instantiate(tree, 
+					GameObject treeObject = (GameObject) Instantiate(tree, 
 								new Vector3(vertexPosition2D.x, height, vertexPosition2D.y), //position
-								Quaternion.Euler(new Vector3(-90, 0, 0))); //rotation 
+						Quaternion.Euler(new Vector3(-90, rotation, 0))); //rotation 
+					treeObject.transform.localScale *= treeMap[x,y] * 2;
 				}
 
             }
